@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DetallesCarritoEnity } from './detalles-carrito.entity';
+import { DetallesCarrito } from './entities/detalles-carrito.entity';
 
 @Module({
-    imports: [
-        TypeOrmModule.forFeature([DetallesCarritoEnity])
-    ],
+  imports: [TypeOrmModule.forFeature([DetallesCarrito])],
 })
-export class DetallesCarritoModule { }
+export class DetallesCarritoModule {}
