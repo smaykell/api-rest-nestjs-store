@@ -1,10 +1,9 @@
 import {
-  BadRequestException,
   Injectable,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOperator, FindOptionsWhere, Like, Repository } from 'typeorm';
+import { FindOptionsWhere, Like, Repository } from 'typeorm';
 import { FindProductosQueryDto } from './dto/FindProductosQuery.dto';
 import { Producto } from './entities/productos.entity';
 
@@ -19,15 +18,25 @@ export class ProductosService {
     return await this.productosRepository.find();
   }
 
-  async findAllPaginate({ page, limit, nombre }: FindProductosQueryDto) {
-    const where: FindOptionsWhere<Producto> = nombre
-      ? {
-          nombre: Like(`%${nombre}%`),
-        }
-      : {};
+  private buildWhere(
+    nombre: string,
+    categoriaId?: number,
+  ): FindOptionsWhere<Producto> {
+    const findOptionsWhere: FindOptionsWhere<Producto> = {};
 
+    if (nombre) findOptionsWhere.nombre = Like(`%${nombre}%`);
+
+    if (categoriaId)
+      findOptionsWhere.categoria = {
+        id: categoriaId,
+      };
+
+    return findOptionsWhere;
+  }
+
+  async findAllPaginate({ page, limit, nombre }: FindProductosQueryDto) {
     const [result, total] = await this.productosRepository.findAndCount({
-      where,
+      where: this.buildWhere(nombre),
       skip: (page - 1) * limit,
       take: limit,
     });
@@ -41,23 +50,13 @@ export class ProductosService {
       },
     };
   }
+
   async findAllPaginateByCategoria(
     categoriaId: number,
     { page, limit, nombre }: FindProductosQueryDto,
   ) {
-    const where: FindOptionsWhere<Producto> = nombre
-      ? {
-          nombre: Like(`%${nombre}%`),
-        }
-      : {};
-
     const [result, total] = await this.productosRepository.findAndCount({
-      where: {
-        categoria: {
-          id: categoriaId,
-        },
-        ...where,
-      },
+      where: this.buildWhere(nombre, categoriaId),
       skip: (page - 1) * limit,
       take: limit,
     });
