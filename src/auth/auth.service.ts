@@ -13,7 +13,7 @@ export class AuthService {
   async login(
     userAuthCredentialsDto: UserAuthCredentialsDto,
   ): Promise<{ accessToken: string }> {
-    const usuario = await this.usuariosService.getUsuarioByCorreo(
+    const usuario = await this.usuariosService.findUsuarioByCorreo(
       userAuthCredentialsDto.correo,
     );
 

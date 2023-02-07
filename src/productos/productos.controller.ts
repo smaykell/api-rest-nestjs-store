@@ -1,6 +1,6 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { FindProductosQueryDto } from './dto/FindProductosQuery.dto';
+import { FindProductosQueryDto } from './dto/find-productos-query.dto';
 import { ProductosService } from './productos.service';
 
 @UseGuards(AuthGuard())

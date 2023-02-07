@@ -7,7 +7,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { FindProductosQueryDto } from 'src/productos/dto/FindProductosQuery.dto';
+import { FindProductosQueryDto } from 'src/productos/dto/find-productos-query.dto';
 import { ProductosService } from 'src/productos/productos.service';
 import { CategoriasService } from './categorias.service';
 

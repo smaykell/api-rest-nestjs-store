@@ -4,7 +4,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Like, Repository } from 'typeorm';
-import { FindProductosQueryDto } from './dto/FindProductosQuery.dto';
+import { FindProductosQueryDto } from './dto/find-productos-query.dto';
 import { Producto } from './entities/productos.entity';
 
 @Injectable()

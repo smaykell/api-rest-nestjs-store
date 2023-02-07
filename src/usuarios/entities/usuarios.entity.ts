@@ -21,9 +21,6 @@ export class Usuario {
   @Column({ length: 50 })
   clave: string;
 
-  @Column({ type: 'int' })
-  items: number;
-
   @OneToMany((type) => DetallesCarrito, (detalle) => detalle.usuario)
   @JoinColumn({ name: 'usuario_id' })
   detallesCarrito: DetallesCarrito[];

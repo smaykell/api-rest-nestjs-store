@@ -11,7 +11,21 @@ export class UsuariosService {
     private readonly usuarioRepository: Repository<Usuario>,
   ) {}
 
-  async getUsuarioByCorreo(correo: string): Promise<Usuario> {
+  async findUsuarioByCorreo(correo: string): Promise<Usuario> {
     return await this.usuarioRepository.findOne({ where: { correo } });
+  }
+
+  async findByUsuarioId(id: number) {
+    const usuario = await this.usuarioRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (!usuario) {
+      throw new NotFoundException('Usuario no encontrado');
+    }
+
+    return usuario;
   }
 }
