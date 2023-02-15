@@ -4,6 +4,7 @@ import { ProductosService } from 'src/productos/productos.service';
 import { UsuariosService } from 'src/usuarios/usuarios.service';
 import { Repository } from 'typeorm';
 import { AddDetalleCarritoDto } from './dto/add-detalle-carrito.dto';
+import { UpdateDetalleCarritoDto } from './dto/update-detalle-carrito.dto';
 import { DetallesCarrito } from './entities/detalles-carrito.entity';
 
 @Injectable()
@@ -57,6 +58,27 @@ export class DetallesCarritoService {
       delete detalleCarrito.usuario;
       return detalleCarrito;
     }
+  }
+
+  async updateDetalleCarritoByUsuarioId(
+    userId: number,
+    detalleCarritoId: number,
+    updateDetalleCarritoDto: UpdateDetalleCarritoDto,
+  ) {
+
+    const detalleCarrito = await this.findDetalleCarritoById(detalleCarritoId);
+    const usuario = await this.usuariosService.findByUsuarioId(userId);
+
+    if (detalleCarrito.usuario.id !== usuario.id) {
+      throw new NotFoundException('Detalle de carrito no encontrado');
+    }
+
+    detalleCarrito.cantidad = updateDetalleCarritoDto.cantidad;
+
+   await this.carritoRepository.save(detalleCarrito);
+
+    delete detalleCarrito.usuario;
+    return detalleCarrito;
   }
 
   async findDetalleCarritoById(id: number) {
