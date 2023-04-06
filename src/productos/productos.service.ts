@@ -1,7 +1,4 @@
-import {
-  Injectable,
-  NotFoundException
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsWhere, Like, Repository } from 'typeorm';
 import { FindProductosQueryDto } from './dto/find-productos-query.dto';
@@ -18,25 +15,12 @@ export class ProductosService {
     return await this.productosRepository.find();
   }
 
-  private buildWhere(
-    nombre: string,
-    categoriaId?: number,
-  ): FindOptionsWhere<Producto> {
+  async findAllPaginate({ page, limit, nombre }: FindProductosQueryDto) {
     const findOptionsWhere: FindOptionsWhere<Producto> = {};
-
     if (nombre) findOptionsWhere.nombre = Like(`%${nombre}%`);
 
-    if (categoriaId)
-      findOptionsWhere.categoria = {
-        id: categoriaId,
-      };
-
-    return findOptionsWhere;
-  }
-
-  async findAllPaginate({ page, limit, nombre }: FindProductosQueryDto) {
     const [result, total] = await this.productosRepository.findAndCount({
-      where: this.buildWhere(nombre),
+      where: findOptionsWhere,
       skip: (page - 1) * limit,
       take: limit,
     });
@@ -55,8 +39,15 @@ export class ProductosService {
     categoriaId: number,
     { page, limit, nombre }: FindProductosQueryDto,
   ) {
+    const findOptionsWhere: FindOptionsWhere<Producto> = {};
+    if (nombre) findOptionsWhere.nombre = Like(`%${nombre}%`);
+
+    if (categoriaId)
+      findOptionsWhere.categoria = {
+        id: categoriaId,
+      };
     const [result, total] = await this.productosRepository.findAndCount({
-      where: this.buildWhere(nombre, categoriaId),
+      where: findOptionsWhere,
       skip: (page - 1) * limit,
       take: limit,
     });
