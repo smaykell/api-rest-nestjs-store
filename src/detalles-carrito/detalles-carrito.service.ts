@@ -65,7 +65,6 @@ export class DetallesCarritoService {
     detalleCarritoId: number,
     updateDetalleCarritoDto: UpdateDetalleCarritoDto,
   ) {
-
     const detalleCarrito = await this.findDetalleCarritoById(detalleCarritoId);
     const usuario = await this.usuariosService.findByUsuarioId(userId);
 
@@ -75,7 +74,7 @@ export class DetallesCarritoService {
 
     detalleCarrito.cantidad = updateDetalleCarritoDto.cantidad;
 
-   await this.carritoRepository.save(detalleCarrito);
+    await this.carritoRepository.save(detalleCarrito);
 
     delete detalleCarrito.usuario;
     return detalleCarrito;
@@ -99,6 +98,10 @@ export class DetallesCarritoService {
   async deleteDetalleCarritoByUsuarioId(userId: number, id: number) {
     const usuario = await this.usuariosService.findByUsuarioId(userId);
     const detalleCarrito = await this.findDetalleCarritoById(id);
+
+    if (!detalleCarrito){
+      throw new NotFoundException('Detalle de carrito no encontrado');
+    }
 
     if (detalleCarrito.usuario.id !== usuario.id) {
       throw new NotFoundException('Detalle de carrito no encontrado');
