@@ -5,9 +5,7 @@ import { UsuariosService } from 'src/usuarios/usuarios.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    private readonly usuariosService: UsuariosService,
-  ) {
+  constructor(private readonly usuariosService: UsuariosService) {
     super({
       secretOrKey: 'secret',
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

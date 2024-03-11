@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: prototipo_tienda_nestjs_dev
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345678
+    ports:
+      - "5434:5432"
+    volumes:
+      - prototipo_tienda_nestjs_dev:/var/lib/postgresql/data
+volumes:
+  prototipo_tienda_nestjs_dev:

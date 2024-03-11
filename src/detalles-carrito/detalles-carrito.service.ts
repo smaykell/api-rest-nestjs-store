@@ -99,7 +99,7 @@ export class DetallesCarritoService {
     const usuario = await this.usuariosService.findByUsuarioId(userId);
     const detalleCarrito = await this.findDetalleCarritoById(id);
 
-    if (!detalleCarrito){
+    if (!detalleCarrito) {
       throw new NotFoundException('Detalle de carrito no encontrado');
     }
 

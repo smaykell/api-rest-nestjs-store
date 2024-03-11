@@ -15,7 +15,7 @@ export class Categorias {
   @Column()
   nombre: string;
 
-  @OneToMany((type) => Producto, (producto) => producto.categoria)
+  @OneToMany(() => Producto, (producto) => producto.categoria)
   @JoinColumn({ name: 'categoria_id' })
   productos: Producto[];
 }

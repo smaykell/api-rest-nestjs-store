@@ -16,7 +16,7 @@ import { AuthController } from './auth.controller';
       signOptions: { expiresIn: '60000s' },
     }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    
+
     UsuariosModule,
 
     TypeOrmModule.forFeature([Usuario]),
