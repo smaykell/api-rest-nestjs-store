@@ -4,10 +4,15 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { Marca } from './marca.entity';
+import { Badge } from './badge.entity';
+import { Imagen } from './imagen.entity';
 
 @Entity('productos')
 export class Producto {
@@ -17,19 +22,36 @@ export class Producto {
   @Column({ length: 50 })
   nombre: string;
 
+  @Column({ length: 100 })
+  descripcion: string;
+
+  @Column({ length: 100 })
+  sku: string;
+
+  @ManyToOne(() => Marca, (marca) => marca.productos)
+  @JoinColumn({ name: 'marca_id' })
+  marca: Marca;
+
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   precio: number;
 
   @Column({ type: 'int' })
   existencia: number;
 
-  @Column({ length: 200 })
-  imagen: string;
+  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  rating: number;
 
-  @ManyToOne((type) => Categorias, (categoria) => categoria.productos)
+  @ManyToOne(() => Categorias, (categoria) => categoria.productos)
   @JoinColumn({ name: 'categoria_id' })
   categoria: Categorias;
 
-  @OneToMany((type) => DetallesCarrito, (detalle) => detalle.producto)
+  @OneToMany(() => Imagen, (imagen) => imagen.producto)
+  imagenes: Imagen[];
+
+  @ManyToMany(() => Badge, (badge) => badge.productos)
+  @JoinTable()
+  badges: Badge[];
+
+  @OneToMany(() => DetallesCarrito, (detalle) => detalle.producto)
   detallesCarrito: DetallesCarrito[];
 }

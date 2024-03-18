@@ -17,6 +17,8 @@ export class AuthService {
       userAuthCredentialsDto.correo,
     );
 
+    console.log('usuario', usuario);
+
     if (!usuario || usuario.clave !== userAuthCredentialsDto.clave)
       throw new UnauthorizedException('Incorrect login credentials!');
 
