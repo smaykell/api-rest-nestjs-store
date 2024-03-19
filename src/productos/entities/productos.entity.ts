@@ -13,6 +13,7 @@ import {
 import { Marca } from './marca.entity';
 import { Badge } from './badge.entity';
 import { Imagen } from './imagen.entity';
+import { Precio } from './precio.entity';
 
 @Entity('productos')
 export class Producto {
@@ -32,11 +33,11 @@ export class Producto {
   @JoinColumn({ name: 'marca_id' })
   marca: Marca;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
-  precio: number;
+  @OneToMany(() => Precio, (precio) => precio.producto)
+  precios: Precio[];
 
   @Column({ type: 'int' })
-  existencia: number;
+  stock: number;
 
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   rating: number;
