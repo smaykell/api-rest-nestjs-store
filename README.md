@@ -80,4 +80,4 @@ $ docker-compose -f db-docker-compose.yml up -d
 ```
 
 # Database Diagram
-![Diagrama de base de datos](./docs\er-diagram.png)
+![Diagrama de base de datos](docs\er-diagram.png)
