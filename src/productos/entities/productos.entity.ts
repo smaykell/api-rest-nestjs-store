@@ -50,7 +50,11 @@ export class Producto {
   imagenes: Imagen[];
 
   @ManyToMany(() => Badge, (badge) => badge.productos)
-  @JoinTable()
+  @JoinTable({
+    name: 'productos_badges',
+    joinColumn: { name: 'producto_id' },
+    inverseJoinColumn: { name: 'badge_id' },
+  })
   badges: Badge[];
 
   @OneToMany(() => DetallesCarrito, (detalle) => detalle.producto)

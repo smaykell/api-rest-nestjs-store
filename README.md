@@ -78,3 +78,6 @@ Nest is [MIT licensed](LICENSE).
 # Create a container with the database
 $ docker-compose -f db-docker-compose.yml up -d
 ```
+
+# Database Diagram
+![Diagrama de base de datos](./docs\er-diagram.png)
